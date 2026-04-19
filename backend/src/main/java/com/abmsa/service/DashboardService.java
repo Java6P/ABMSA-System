@@ -151,8 +151,8 @@ public class DashboardService {
                 .limit(WORD_CLOUD_MAX_WORDS)
                 .map(e -> {
                     Map<String, Object> entry = new HashMap<>();
-                    entry.put("word", e.getKey());
-                    entry.put("count", e.getValue());
+                    entry.put("name", e.getKey());
+                    entry.put("value", e.getValue());
                     return entry;
                 })
                 .collect(Collectors.toList());
