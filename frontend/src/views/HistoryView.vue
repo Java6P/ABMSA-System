@@ -66,9 +66,9 @@
       >
         <el-table-column type="index" width="55" />
         <el-table-column prop="target" label="分析目标" width="140" show-overflow-tooltip />
-        <el-table-column prop="text" label="推文内容" show-overflow-tooltip>
+        <el-table-column prop="inputText" label="推文内容" show-overflow-tooltip>
           <template #default="{ row }">
-            {{ row.text ? row.text.substring(0, 80) + (row.text.length > 80 ? '...' : '') : '-' }}
+            {{ row.inputText ? row.inputText.substring(0, 80) + (row.inputText.length > 80 ? '...' : '') : '-' }}
           </template>
         </el-table-column>
         <el-table-column label="情感倾向" width="110" align="center">
@@ -154,13 +154,13 @@ async function fetchHistory() {
       analysisType: filters.analysisType || undefined
     }
     const data = await listHistory(params)
-    records.value = Array.isArray(data) ? data : (data?.list || [])
+    records.value = Array.isArray(data) ? data : (data?.records || [])
     pagination.total = data?.total || records.value.length
   } catch {
     records.value = [
-      { id: 1, target: 'iPhone 15', text: 'Amazing camera quality on the iPhone 15!', sentiment: 'positive', confidence: 0.92, analysisType: 'MANUAL', createdAt: new Date().toISOString() },
-      { id: 2, target: '客服', text: '服务态度很差，等了很久', sentiment: 'negative', confidence: 0.87, analysisType: 'AUTO', createdAt: new Date().toISOString() },
-      { id: 3, target: '价格', text: 'The price is average compared to competitors.', sentiment: 'neutral', confidence: 0.76, analysisType: 'MANUAL', createdAt: new Date().toISOString() }
+      { id: 1, target: 'iPhone 15', inputText: 'Amazing camera quality on the iPhone 15!', sentiment: 'positive', confidence: 0.92, analysisType: 'MANUAL', createdAt: new Date().toISOString() },
+      { id: 2, target: '客服', inputText: '服务态度很差，等了很久', sentiment: 'negative', confidence: 0.87, analysisType: 'AUTO', createdAt: new Date().toISOString() },
+      { id: 3, target: '价格', inputText: 'The price is average compared to competitors.', sentiment: 'neutral', confidence: 0.76, analysisType: 'MANUAL', createdAt: new Date().toISOString() }
     ]
     pagination.total = records.value.length
   } finally {
@@ -210,7 +210,7 @@ async function handleExportExcel() {
 function exportLocally(type) {
   const header = 'target,text,sentiment,confidence,analysisType,createdAt'
   const rows = records.value.map(r =>
-    `"${r.target}","${(r.text || '').replace(/"/g, '""')}","${r.sentiment}",${r.confidence},"${r.analysisType}","${r.createdAt}"`
+    `"${r.target}","${(r.inputText || '').replace(/"/g, '""')}","${r.sentiment}",${r.confidence},"${r.analysisType}","${r.createdAt}"`
   )
   const csv = [header, ...rows].join('\n')
   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' })
