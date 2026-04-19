@@ -23,11 +23,12 @@ public class HistoryServiceImpl implements HistoryService {
 
     @Override
     public Result<PageResult<AnalysisRecord>> listHistory(Long userId, int page, int size,
-                                                           String keyword, String sentiment) {
+                                                           String keyword, String sentiment, String analysisType) {
         LambdaQueryWrapper<AnalysisRecord> wrapper = new LambdaQueryWrapper<AnalysisRecord>()
                 .eq(AnalysisRecord::getUserId, userId)
                 .like(StringUtils.isNotBlank(keyword), AnalysisRecord::getInputText, keyword)
                 .eq(StringUtils.isNotBlank(sentiment), AnalysisRecord::getSentiment, sentiment)
+                .eq(StringUtils.isNotBlank(analysisType), AnalysisRecord::getAnalysisType, analysisType)
                 .orderByDesc(AnalysisRecord::getCreatedAt);
 
         Page<AnalysisRecord> pageObj = analysisRecordMapper.selectPage(new Page<>(page, size), wrapper);
