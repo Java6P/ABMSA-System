@@ -5,7 +5,11 @@ export function getOverview() {
 }
 
 export function getSentimentTrend(keywordId, period) {
-  return request.get('/dashboard/trend', { params: { keywordId, period } })
+  const params = { period }
+  if (keywordId != null) {
+    params.keywordId = keywordId
+  }
+  return request.get('/dashboard/trend', { params })
 }
 
 export function getKeywordStats(id) {
@@ -13,9 +17,17 @@ export function getKeywordStats(id) {
 }
 
 export function getTargetCompare(keywordId) {
-  return request.get('/dashboard/target-compare', { params: { keywordId } })
+  const params = {}
+  if (keywordId != null) {
+    params.keywordId = keywordId
+  }
+  return request.get('/dashboard/target-compare', { params })
 }
 
 export function getWordCloud(keywordId) {
-  return request.get('/dashboard/wordcloud', { params: { keywordId } })
+  const params = {}
+  if (keywordId != null) {
+    params.keywordId = keywordId
+  }
+  return request.get('/dashboard/wordcloud', { params })
 }
