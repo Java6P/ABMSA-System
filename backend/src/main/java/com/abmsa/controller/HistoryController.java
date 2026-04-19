@@ -24,14 +24,15 @@ public class HistoryController extends BaseController {
         this.historyService = historyService;
     }
 
-    @GetMapping
+    @GetMapping("/list")
     public Result<PageResult<AnalysisRecord>> list(
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(required = false) String keyword,
             @RequestParam(required = false) String sentiment,
+            @RequestParam(required = false) String analysisType,
             Authentication auth) {
-        return historyService.listHistory(resolveUserId(auth), page, size, keyword, sentiment);
+        return historyService.listHistory(resolveUserId(auth), page, size, keyword, sentiment, analysisType);
     }
 
     @GetMapping("/{id}")
