@@ -7,7 +7,7 @@ import com.abmsa.entity.AnalysisRecord;
 public interface HistoryService {
 
     Result<PageResult<AnalysisRecord>> listHistory(Long userId, int page, int size,
-                                                    String keyword, String sentiment);
+                                                    String keyword, String sentiment, String analysisType);
 
     Result<AnalysisRecord> getRecord(Long id);
 
